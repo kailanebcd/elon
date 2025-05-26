@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elon Musk Accelerator Lab</title>
+    <style>
+        :root {
+            --primary-bg: #1a1a2e;
+            --secondary-bg: #16213e;
+            --tertiary-bg: #0f3460;
+            --accent-color: #e94560;
+            --text-color: #dcdcdc;
+            --text-light: #f0f0f0;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2, h3 {
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2em; /* Adjusted for space */
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.6em; /* Adjusted for space */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            font-size: 1em; /* Adjusted for space */
+            margin-bottom: 8px;
+        }
+
+        .elon-quote {
+            font-style: italic;
+            color: #a7d1e0; /* Light blue for quotes */
+            margin: 12px 0;
+            padding: 8px;
+            border-left: 3px solid var(--accent-color);
+            background-color: var(--tertiary-bg);
+            border-radius: 0 5px 5px 0;
+        }
+
+        .module {
+            display: none; /* Hidden by default */
+            padding: 15px;
+            border: 1px solid var(--tertiary-bg);
+            border-radius: 8px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active-module {
+            display: block;
+        }
+
+        button, .choice-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 15px; /* Adjusted padding */
+            font-size: 0.95em; /* Adjusted font size */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin: 5px 0; /* Adjusted margin */
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        button:hover, .choice-btn:hover {
+            background-color: #c33049;
+            transform: translateY(-1px); /* Subtle lift */
+        }
+        
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Adjusted gap */
+            margin-top: 15px;
+        }
+
+        textarea, input[type="text"], input[type="range"] {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border: 1px solid var(--tertiary-bg);
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+        
+        input[type="range"] {
+            padding: 0;
+            width: 100%; /* Ensure range slider takes full width */
+        }
+
+        .feedback-area {
+            margin-top: 12px;
+            padding: 8px;
+            background-color: #2a2a4e; /* Slightly different bg for feedback */
+            border-radius: 5px;
+            border: 1px dashed var(--accent-color);
+            font-size: 0.9em;
+        }
+        
+        .progress-bar-container { /* Renamed for clarity */
+            width: 100%;
+            background-color: var(--tertiary-bg);
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-indicator { /* Renamed for clarity */
+            width: 0%; /* Initial progress */
+            height: 10px;
+            background-color: var(--accent-color);
+            transition: width 0.5s ease-in-out;
+            text-align: center;
+            line-height: 10px;
+            color: white;
+            font-size: 0.7em;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .action-planner textarea {
+            min-height: 50px; /* Adjusted height */
+        }
+        
+        .final-thoughts {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: var(--tertiary-bg);
+            border-radius: 8px;
+        }
+        .story-box {
+            background-color: #222f4e;
+            border: 1px solid #0f3460;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .story-box h3 {
+            font-size: 1.1em;
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="entry-portal" class="module active-module">
+            <h1>Got an "Impossible" Idea? Let's Engineer It.</h1>
+            <p>You're standing at the threshold of something massive. It feels daunting, maybe even crazy. Good. That's where breakthroughs begin. I'm Elon Musk, and for the next few minutes, I'm your advisor.</p>
+            <p class="elon-quote">"You are an <strong>Innovator</strong>, a <strong>Builder</strong>, a <strong>Dreamer</strong> facing a challenge that seems insurmountable. The world needs what you're aiming for, even if it doesn't know it yet."</p>
+            
+            <h2>What's your primary bottleneck right now?</h2>
+            <div class="button-group">
+                <button onclick="startCoaching('audacity')">"The Sheer Audacity": My goal feels too big, experts doubt it.</button>
+                <button onclick="startCoaching('execution')">"The Execution Maze": Vision is there, but reality is overwhelming.</button>
+                <button onclick="startCoaching('belief')">"The Battle for Belief": Odds are against me, setbacks are constant.</button>
+            </div>
+        </div>
+
+        <div id="progress-container" class="hidden">
+            <p id="progress-text" style="text-align:center; margin-bottom: 5px;">Module 1 of 4</p>
+            <div class="progress-bar-container">
+                <div id="progress-indicator" class="progress-indicator"></div>
+            </div>
+        </div>
+
+        <!-- Module 1: Diagnosis & First Principles -->
+        <div id="module-one" class="module">
+            <h2>Module 1: Diagnosis & First Principles</h2>
+            <p class="elon-quote">"Alright, so they're saying it's 'impossible' or 'too audacious.' That's familiar territory... The issue isn't the label; it's whether you're thinking from the ground up."</p>
+            
+            <p>Let's apply <strong>First Principles Thinking</strong>. Take your 'impossible' goal.</p>
+            <label for="impossible-goal">Your "Impossible" Goal:</label>
+            <textarea id="impossible-goal" rows="2" placeholder="e.g., Sustainable global energy network"></textarea>
+            
+            <label for="conventional-wisdom">Conventional "Wisdom" / Obstacles (comma-separated):</label>
+            <input type="text" id="conventional-wisdom" placeholder="e.g., Too expensive, Tech doesn't exist">
+            
+            <label for="fundamental-truths">Fundamental Truths / Physics (what's *really* unchangeable):</label>
+            <input type="text" id="fundamental-truths" placeholder="e.g., Laws of thermodynamics, Available elements">
+            
+            <button onclick="processFirstPrinciples()">Analyze with First Principles</button>
+            <div id="first-principles-feedback" class="feedback-area hidden"></div>
+
+            <div id="feasibility-question" class="hidden">
+                <p class="elon-quote">"The first step is to establish that something is possible; then probability will occur. SpaceX was told reusable rockets were a fantasy. How will you demonstrate a *kernel* of possibility for your goal, even imperfectly?"</p>
+                <div class="button-group">
+                    <button onclick="answerFeasibility('prototype')">Build a quick, dirty prototype or run a small test NOW.</button>
+                    <button onclick="answerFeasibility('plan')">Spend months perfecting a comprehensive plan.</button>
+                    <button onclick="answerFeasibility('convince')">Try to convince more experts first.</button>
+                </div>
+                <div id="feasibility-feedback" class="feedback-area hidden"></div>
+            </div>
+            <button onclick="goToModule('module-two')" class="hidden" id="to-module-two-btn">Next: Strategy & Urgency</button>
+        </div>
+
+        <!-- Module 2: Strategy & Urgency -->
+        <div id="module-two" class="module">
+            <h2>Module 2: Strategy & Urgency</h2>
+            <p class="elon-quote">"Urgency is a competitive advantage. Humanity doesn't have infinite time, and neither does your project. Speed isn't just efficient; it's existentially necessary."</p>
+            
+            <p>Let's say your project, done 'normally,' takes 5 years. What if you *had* to do it in <span id="time-multiplier-value">18</span> months? Drag the slider to explore.</p>
+            <input type="range" id="time-multiplier-slider" min="12" max="60" value="18" step="6" oninput="updateTimeMultiplier()">
+            <div id="time-multiplier-feedback" class="feedback-area">
+                With an 18-month timeline: Forced to cut non-essentials, rapid iteration, parallel experimentation, vertical integration where necessary. Sacrifices comfort for speed and learning.
+            </div>
+
+            <p class="elon-quote">"Work like hell. I mean you just have to put in 80 to 100 hour weeks every week. This improves the odds of success." (During CRITICAL phases)</p>
+            
+            <h3>Personal Impact of Urgency</h3>
+            <label for="urgency-breakthrough">If you applied 'strategic intensity' (3x effective output) for ONE WEEK on a key task, what breakthrough could you achieve?</label>
+            <textarea id="urgency-breakthrough" rows="2" placeholder="e.g., Complete initial prototype, Secure first test user"></textarea>
+            <button onclick="goToModule('module-three')">Next: Execution & Resilience</button>
+        </div>
+
+        <!-- Module 3: Execution & Resilience -->
+        <div id="module-three" class="module">
+            <h2>Module 3: Execution & Resilience</h2>
+            <p class="elon-quote">"Starting a company is like eating glass and staring into the abyss of death. Execution is where most audacious plans falter. You need relentless execution and a robust feedback loop."</p>
+
+            <p><strong>"I think it's very important to have a feedback loop, where you're constantly thinking about what you've done and how you could be doing it better."</strong> And crucially, <strong>"Really pay attention to negative feedback and solicit it, particularly from friends."</strong></p>
+            
+            <p>How will you *actively* solicit and process critical feedback for your project this week?</p>
+            <div class="button-group">
+                <button onclick="answerFeedbackLoop('ask_friends')">Ask trusted, critical friends for their *harshest* constructive criticism on a specific aspect.</button>
+                <button onclick="answerFeedbackLoop('survey')">Send out an anonymous survey to a wider group.</button>
+                <button onclick="answerFeedbackLoop('hope')">Hope people will offer it if they see something.</button>
+            </div>
+            <div id="feedback-loop-response" class="feedback-area hidden"></div>
+
+            <div class="story-box">
+                <h3>Crucible Moment: The Falcon 1 Failures</h3>
+                <p>SpaceX's first three rocket launches failed spectacularly, nearly killing the company. Instead of abandoning the approach, Musk insisted on understanding exactly why each failure occurred and implementing specific fixes. The fourth launch succeeded, saving SpaceX. Expensive failures are only worthless if you don't extract every possible lesson. Make failures data rather than disasters.</p>
+            </div>
+
+            <p class="elon-quote">"When something is important enough, you do it even if the odds are not in your favor. This is about Mission Beyond Money. Your conviction is your greatest asset."</p>
+            <button onclick="goToModule('module-four')">Next: Your Mission Brief</button>
+        </div>
+        
+        <!-- Module 4: Your Mission Brief -->
+        <div id="module-four" class="module">
+            <h2>Module 4: Your Mission Brief</h2>
+            <p class="elon-quote">"Alright, our initial consultation is wrapping up. You've got the foundational principles. The real work starts now."</p>
+
+            <div class="action-planner">
+                <h3>Personal Action Planner:</h3>
+                <div>
+                    <label for="action-first-principle"><strong>1. Your First Principle Action:</strong> This week, identify ONE core assumption about your project. Break it down to its fundamental truths. What new approach emerges?</label>
+                    <textarea id="action-first-principle" rows="2"></textarea>
+                </div>
+                <div>
+                    <label for="action-urgency"><strong>2. Your Urgency Catalyst:</strong> Pick ONE task. How can you apply strategic intensity to it for a short burst to achieve a mini-breakthrough?</label>
+                    <textarea id="action-urgency" rows="2"></textarea>
+                </div>
+                <div>
+                    <label for="action-feedback"><strong>3. Your Feedback Loop:</strong> Schedule ONE conversation this week specifically to solicit *critical* feedback from someone you trust to be honest.</label>
+                    <textarea id="action-feedback" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="resource-arsenal" style="margin-top:20px;">
+                <h3>Resource Arsenal (Reminders):</h3>
+                <ul>
+                    <li>Revisit the <span class="highlight">Five Pillars</span>: First Principles, Physics as Arbiter, Urgency, Learning Through Making, Mission Beyond Money.</li>
+                    <li>Remember the <span class="highlight">Leader's Toolkit</span>: First Principles Framework, Mission-Critical Priority System.</li>
+                    <li>Consider the <span class="highlight">Maverick's Edge</span>: Vertical Integration, Transparency, Impossible Timelines.</li>
+                </ul>
+            </div>
+
+            <div class="final-thoughts">
+                <p class="elon-quote">"The future isn't something that happens to you. It's something you build. I could either watch it happen or be a part of it. You've chosen to be a part of it."</p>
+                <p class="elon-quote">"If you get up in the morning and think the future is going to be better, it is a bright day. Otherwise, it's not."</p>
+                <h3>The impossible is just an engineering problem waiting for <span class="highlight">you</span> to solve it. Now, go build.</h3>
+            </div>
+            
+            <button onclick="alert('Your mission brief is on this page. Consider screenshotting or copying your action plan!')">"Save" My Brief (View on Page)</button>
+            <button onclick="restartExperience()">Start Over</button>
+        </div>
+
+    </div>
+
+    <script>
+        const totalModules = 4;
+        let currentModuleNumber = 0;
+        let userPath = ''; // To store user's initial choice
+
+        const modules = ['entry-portal', 'module-one', 'module-two', 'module-three', 'module-four'];
+
+        function showModule(moduleIdToShow) {
+            modules.forEach(id => {
+                const moduleElement = document.getElementById(id);
+                if (moduleElement) {
+                    moduleElement.classList.remove('active-module');
+                    moduleElement.classList.add('hidden'); // Ensure it's hidden explicitly
+                }
+            });
+            
+            const targetModule = document.getElementById(moduleIdToShow);
+            if (targetModule) {
+                targetModule.classList.add('active-module');
+                targetModule.classList.remove('hidden');
+            }
+
+            // Update progress
+            const moduleIndex = modules.indexOf(moduleIdToShow);
+            if (moduleIndex > 0) { // Don't show progress for entry portal
+                currentModuleNumber = moduleIndex;
+                document.getElementById('progress-container').classList.remove('hidden');
+                updateProgress(currentModuleNumber, totalModules);
+            } else {
+                document.getElementById('progress-container').classList.add('hidden');
+            }
+            window.scrollTo(0, 0); // Scroll to top when module changes
+        }
+
+        function updateProgress(current, total) {
+            const progressIndicator = document.getElementById('progress-indicator');
+            const progressText = document.getElementById('progress-text');
+            const percentage = (current / total) * 100;
+            progressIndicator.style.width = percentage + '%';
+            progressText.textContent = `Module ${current} of ${total}`;
+        }
+
+        function startCoaching(path) {
+            userPath = path;
+            // Potentially customize Module 1 based on path later, for now, all go to module-one
+            showModule('module-one');
+        }
+
+        function processFirstPrinciples() {
+            const goal = document.getElementById('impossible-goal').value;
+            const wisdom = document.getElementById('conventional-wisdom').value;
+            const truths = document.getElementById('fundamental-truths').value;
+            const feedbackEl = document.getElementById('first-principles-feedback');
+
+            if (!goal || !wisdom || !truths) {
+                feedbackEl.innerHTML = "<p>Please fill in all fields to analyze.</p>";
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            feedbackEl.innerHTML = `<p class="highlight">Elon's Initial Thoughts:</p>
+                <p>"Good. Now, look at your 'Conventional Wisdom'. Are those obstacles truly fundamental, or just assumptions based on current methods? My rule: <strong>If it doesn't violate the laws of physics (your 'Fundamental Truths'), it can be done—the rest is engineering.</strong>"</p>
+                <p>"Most limitations are self-imposed through unexamined assumptions. Questioning them systematically reveals these invisible barriers."</p>`;
+            feedbackEl.classList.remove('hidden');
+            document.getElementById('feasibility-question').classList.remove('hidden');
+        }
+
+        function answerFeasibility(choice) {
+            const feedbackEl = document.getElementById('feasibility-feedback');
+            let response = "";
+            if (choice === 'prototype') {
+                response = `<p class="highlight">Elon's Feedback:</p><p>"Exactly. <strong>The first step is to establish that something is possible; then probability will occur.</strong> A crude proof of concept shatters more skepticism than a thousand PowerPoint slides. Your goal is to learn by <em>making</em>."</p>`;
+            } else if (choice === 'plan') {
+                response = `<p class="highlight">Elon's Feedback:</p><p>"Planning is good, but over-planning without real-world data can be a trap. <strong>Learning Through Making</strong> is key. How can you test a core assumption quickly instead of just theorizing?"</p>`;
+            } else { // convince
+                response = `<p class="highlight">Elon's Feedback:</p><p>"Convincing experts is hard without evidence. <strong>Actions speak louder than words.</strong> A small demonstration of possibility will be far more persuasive. Focus on building something, however small."</p>`;
+            }
+            feedbackEl.innerHTML = response;
+            feedbackEl.classList.remove('hidden');
+            document.getElementById('to-module-two-btn').classList.remove('hidden');
+        }
+        
+        function updateTimeMultiplier() {
+            const slider = document.getElementById('time-multiplier-slider');
+            const valueDisplay = document.getElementById('time-multiplier-value');
+            const feedbackEl = document.getElementById('time-multiplier-feedback');
+            const months = slider.value;
+            valueDisplay.textContent = months;
+
+            let commentary = "";
+            if (months <= 18) {
+                commentary = `An aggressive ${months}-month timeline! This forces radical prioritization, parallel processing, and accepting imperfection for speed. High risk, high reward. You'd be in 'wartime' mode.`;
+            } else if (months <= 36) {
+                commentary = `A challenging ${months}-month timeline. Requires significant focus and cutting scope. You'll need to be ruthless about what's 'essential'.`;
+            } else {
+                commentary = `A ${months}-month timeline. More 'standard', but beware of complacency. Even with more time, maintain a sense of urgency and iterate fast. How can you still beat expectations?`;
+            }
+            feedbackEl.innerHTML = `<p class="highlight">Elon's Commentary:</p><p>"${commentary} Impossible deadlines force creative solutions and eliminate non-essential activities. Even missing an impossible deadline often beats hitting a 'realistic' one."</p>`;
+        }
+
+        function answerFeedbackLoop(choice) {
+            const feedbackEl = document.getElementById('feedback-loop-response');
+            let response = "";
+            if (choice === 'ask_friends' || choice === 'survey') {
+                response = `<p class="highlight">Elon's Feedback:</p><p>"Good. Most people avoid this. Negative feedback is the fastest path to improvement. Make it safe and rewarding for people to tell you uncomfortable truths. Each Falcon 1 failure was a multi-million dollar lesson, but we learned, iterated, and succeeded."</p>`;
+            } else { // hope
+                response = `<p class="highlight">Elon's Feedback:</p><p>"Hope isn't a strategy for feedback. You need to <em>systematically</em> seek out what's wrong. People are often hesitant to give tough feedback unless you make it clear you <em>want</em> it and will act on it."</p>`;
+            }
+            feedbackEl.innerHTML = response;
+            feedbackEl.classList.remove('hidden');
+        }
+
+        function goToModule(nextModuleId) {
+            showModule(nextModuleId);
+        }
+        
+        function restartExperience() {
+            // Clear inputs (optional, could be many)
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            inputs.forEach(input => input.value = '');
+            document.getElementById('time-multiplier-slider').value = 18;
+            updateTimeMultiplier(); // Reset slider display
+
+            // Hide dynamic feedback areas
+            const feedbackAreas = document.querySelectorAll('.feedback-area');
+            feedbackAreas.forEach(area => area.classList.add('hidden'));
+            document.getElementById('feasibility-question').classList.add('hidden');
+            document.getElementById('to-module-two-btn').classList.add('hidden');
+            
+            showModule('entry-portal');
+            currentModuleNumber = 0; // Reset progress
+        }
+
+        // Initialize
+        showModule('entry-portal'); // Start at the entry portal
+        updateTimeMultiplier(); // Initialize slider feedback
+
+    </script>
+</body>
+</html>
